@@ -108,7 +108,30 @@ service ExampleService {
             summary: "get crops"
             description: "This API for get crops detail"
         };
-	}	
+	}
+	
+	rpc UpdateCropsDetail(Crops)returns(GlobalResponse){
+		option (google.api.http) = {
+            post: "/api/update-crops-detail"
+			body:"*"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Crops"]
+            summary: "update crops"
+            description: "This API for update crops detail"
+        };
+	}
+	
+	rpc DeleteCropsDetail(DeleteCropsRequest)returns(GlobalResponse){
+		option (google.api.http) = {
+            delete: "/api/delete-crops-detail"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Crops"]
+            summary: "delete crops"
+            description: "This API for delete crops detail"
+        };
+	}
 }
 
 // Define request and response messages
@@ -198,6 +221,7 @@ message CropsAll{
 	string jenis_tumbuhan = 2;
 	string umur = 3;
 	string nama_user = 4;
+	int64 id =5;
 }
 
 message CropsDetailRequest{
@@ -220,4 +244,9 @@ message CropDetail{
 	string kebutuhan_pupuk_organik = 6;
 	string kebutuhan_pengendalian_hama = 7;
 	string kebutuhan_air = 8;
+	int64 id =9;
+}
+
+message DeleteCropsRequest{
+	int64 id = 1;
 }

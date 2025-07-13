@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Livestocks struct {
 	ID             int `gorm:"primaryKey"`
 	Spesies        string
@@ -11,6 +13,8 @@ type Livestocks struct {
 	FarmAreaID     int
 	UserID         int
 	Reference      string
-
-	Actions []Actions `gorm:"foreignKey:TargetID"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	DeletedAt      time.Time
+	Actions        []Actions `gorm:"foreignKey:TargetID"`
 }

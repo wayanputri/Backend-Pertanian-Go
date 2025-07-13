@@ -45,6 +45,39 @@
         ]
       }
     },
+    "/api/delete-crops-detail": {
+      "delete": {
+        "summary": "delete crops",
+        "description": "This API for delete crops detail",
+        "operationId": "ExampleService_DeleteCropsDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleGlobalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Crops"
+        ]
+      }
+    },
     "/api/example": {
       "get": {
         "summary": "Health Check",
@@ -204,6 +237,40 @@
         "security": []
       }
     },
+    "/api/update-crops-detail": {
+      "post": {
+        "summary": "update crops",
+        "description": "This API for update crops detail",
+        "operationId": "ExampleService_UpdateCropsDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleGlobalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/exampleCrops"
+            }
+          }
+        ],
+        "tags": [
+          "Crops"
+        ]
+      }
+    },
     "/api/user": {
       "get": {
         "summary": "get User",
@@ -256,6 +323,10 @@
         },
         "kebutuhan_air": {
           "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -303,6 +374,10 @@
         },
         "nama_user": {
           "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },

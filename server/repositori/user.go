@@ -4,10 +4,12 @@ import (
 	"backend/pkg/models"
 	"fmt"
 	"log"
+	"time"
 )
 
 func (r *Provider) CreateUser(req *models.User) (int, error) {
 
+	req.CreatedAt = time.Now()
 	if err := r.dbGorm.Create(&req).Error; err != nil {
 		log.Fatal("Gagal menyisipkan pengguna:", err)
 		return 0, err

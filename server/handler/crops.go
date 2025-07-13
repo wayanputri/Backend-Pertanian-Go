@@ -12,9 +12,6 @@ import (
 
 func (s *Server) CreateCrops(ctx context.Context, req *pb.Crops) (*pb.GlobalResponse, error) {
 
-	// Status  int32  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
-	// Failed  bool   `protobuf:"varint,2,opt,name=failed,proto3" json:"failed,omitempty"`
-	// Message string `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
 	if req.LuasLahan == "" {
 		return &pb.GlobalResponse{
 			Status:  400,
@@ -139,4 +136,78 @@ func (s *Server) GetCropsDetail(ctx context.Context, req *pb.CropsDetailRequest)
 		Data:    data,
 	}, nil
 
+}
+
+func (s *Server) UpdateCropsDetail(ctx context.Context, req *pb.Crops) (*pb.GlobalResponse, error) {
+
+	userID, role, err := jwt_middle.ExtractTokenUserId(ctx)
+	if err != nil {
+		return &pb.GlobalResponse{
+			Status:  400,
+			Failed:  true,
+			Message: err.Error(),
+		}, err
+	}
+	fmt.Println("request", req)
+	err = s.provider.UpdateCrops(models.Crops{
+		ID:                 int(req.GetId()),
+		Spesies:            req.GetJenis(),
+		Age:                req.GetUmur(),
+		WaterNeeds:         req.GetKebutuhanAir(),
+		PestControl:        req.GetPengendalianHama(),
+		OrganicFertilizer:  req.GetPupukOrganik(),
+		ChemicalFertilizer: req.GetPupukKimia(),
+		UserID:             userID,
+	}, userID, role, req.GetLuasLahan())
+	if err != nil {
+		return &pb.GlobalResponse{
+			Status:  500,
+			Failed:  true,
+			Message: err.Error(),
+		}, err
+	}
+	// fmt.Println("apa errornya1", err)
+	// err = s.provider.UpdateAreaFarm(&models.FarmArea{
+	// 	ID:   int(idFarmArea),
+	// 	Wide: req.GetLuasLahan(),
+	// })
+	// fmt.Println("apa errornya", err)
+	// if err != nil {
+	// 	return &pb.GlobalResponse{
+	// 		Status:  500,
+	// 		Failed:  true,
+	// 		Message: err.Error(),
+	// 	}, err
+	// }
+
+	return &pb.GlobalResponse{
+		Status:  200,
+		Failed:  false,
+		Message: "update crops successfully",
+	}, err
+
+}
+
+func (s *Server) DeleteCropsDetail(ctx context.Context, req *pb.DeleteCropsRequest) (*pb.GlobalResponse, error) {
+	userID, role, err := jwt_middle.ExtractTokenUserId(ctx)
+	if err != nil {
+		return &pb.GlobalResponse{
+			Status:  400,
+			Failed:  true,
+			Message: err.Error(),
+		}, err
+	}
+	err = s.provider.DeleteCrops(int(req.GetId()), userID, role)
+	if err != nil {
+		return &pb.GlobalResponse{
+			Status:  500,
+			Failed:  true,
+			Message: err.Error(),
+		}, err
+	}
+	return &pb.GlobalResponse{
+		Status:  200,
+		Failed:  false,
+		Message: "delete crops successfully",
+	}, err
 }

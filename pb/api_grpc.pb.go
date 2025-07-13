@@ -19,13 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ExampleService_GetExample_FullMethodName     = "/example.ExampleService/GetExample"
-	ExampleService_RegisterUser_FullMethodName   = "/example.ExampleService/RegisterUser"
-	ExampleService_LoginUser_FullMethodName      = "/example.ExampleService/LoginUser"
-	ExampleService_GetUserAll_FullMethodName     = "/example.ExampleService/GetUserAll"
-	ExampleService_CreateCrops_FullMethodName    = "/example.ExampleService/CreateCrops"
-	ExampleService_GetCropsAll_FullMethodName    = "/example.ExampleService/GetCropsAll"
-	ExampleService_GetCropsDetail_FullMethodName = "/example.ExampleService/GetCropsDetail"
+	ExampleService_GetExample_FullMethodName        = "/example.ExampleService/GetExample"
+	ExampleService_RegisterUser_FullMethodName      = "/example.ExampleService/RegisterUser"
+	ExampleService_LoginUser_FullMethodName         = "/example.ExampleService/LoginUser"
+	ExampleService_GetUserAll_FullMethodName        = "/example.ExampleService/GetUserAll"
+	ExampleService_CreateCrops_FullMethodName       = "/example.ExampleService/CreateCrops"
+	ExampleService_GetCropsAll_FullMethodName       = "/example.ExampleService/GetCropsAll"
+	ExampleService_GetCropsDetail_FullMethodName    = "/example.ExampleService/GetCropsDetail"
+	ExampleService_UpdateCropsDetail_FullMethodName = "/example.ExampleService/UpdateCropsDetail"
+	ExampleService_DeleteCropsDetail_FullMethodName = "/example.ExampleService/DeleteCropsDetail"
 )
 
 // ExampleServiceClient is the client API for ExampleService service.
@@ -39,6 +41,8 @@ type ExampleServiceClient interface {
 	CreateCrops(ctx context.Context, in *Crops, opts ...grpc.CallOption) (*GlobalResponse, error)
 	GetCropsAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CropsResponse, error)
 	GetCropsDetail(ctx context.Context, in *CropsDetailRequest, opts ...grpc.CallOption) (*CropsDetailResponse, error)
+	UpdateCropsDetail(ctx context.Context, in *Crops, opts ...grpc.CallOption) (*GlobalResponse, error)
+	DeleteCropsDetail(ctx context.Context, in *DeleteCropsRequest, opts ...grpc.CallOption) (*GlobalResponse, error)
 }
 
 type exampleServiceClient struct {
@@ -112,6 +116,24 @@ func (c *exampleServiceClient) GetCropsDetail(ctx context.Context, in *CropsDeta
 	return out, nil
 }
 
+func (c *exampleServiceClient) UpdateCropsDetail(ctx context.Context, in *Crops, opts ...grpc.CallOption) (*GlobalResponse, error) {
+	out := new(GlobalResponse)
+	err := c.cc.Invoke(ctx, ExampleService_UpdateCropsDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exampleServiceClient) DeleteCropsDetail(ctx context.Context, in *DeleteCropsRequest, opts ...grpc.CallOption) (*GlobalResponse, error) {
+	out := new(GlobalResponse)
+	err := c.cc.Invoke(ctx, ExampleService_DeleteCropsDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExampleServiceServer is the server API for ExampleService service.
 // All implementations must embed UnimplementedExampleServiceServer
 // for forward compatibility
@@ -123,6 +145,8 @@ type ExampleServiceServer interface {
 	CreateCrops(context.Context, *Crops) (*GlobalResponse, error)
 	GetCropsAll(context.Context, *Empty) (*CropsResponse, error)
 	GetCropsDetail(context.Context, *CropsDetailRequest) (*CropsDetailResponse, error)
+	UpdateCropsDetail(context.Context, *Crops) (*GlobalResponse, error)
+	DeleteCropsDetail(context.Context, *DeleteCropsRequest) (*GlobalResponse, error)
 	mustEmbedUnimplementedExampleServiceServer()
 }
 
@@ -150,6 +174,12 @@ func (UnimplementedExampleServiceServer) GetCropsAll(context.Context, *Empty) (*
 }
 func (UnimplementedExampleServiceServer) GetCropsDetail(context.Context, *CropsDetailRequest) (*CropsDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCropsDetail not implemented")
+}
+func (UnimplementedExampleServiceServer) UpdateCropsDetail(context.Context, *Crops) (*GlobalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCropsDetail not implemented")
+}
+func (UnimplementedExampleServiceServer) DeleteCropsDetail(context.Context, *DeleteCropsRequest) (*GlobalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCropsDetail not implemented")
 }
 func (UnimplementedExampleServiceServer) mustEmbedUnimplementedExampleServiceServer() {}
 
@@ -290,6 +320,42 @@ func _ExampleService_GetCropsDetail_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExampleService_UpdateCropsDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Crops)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).UpdateCropsDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_UpdateCropsDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).UpdateCropsDetail(ctx, req.(*Crops))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExampleService_DeleteCropsDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCropsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).DeleteCropsDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_DeleteCropsDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).DeleteCropsDetail(ctx, req.(*DeleteCropsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExampleService_ServiceDesc is the grpc.ServiceDesc for ExampleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -324,6 +390,14 @@ var ExampleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCropsDetail",
 			Handler:    _ExampleService_GetCropsDetail_Handler,
+		},
+		{
+			MethodName: "UpdateCropsDetail",
+			Handler:    _ExampleService_UpdateCropsDetail_Handler,
+		},
+		{
+			MethodName: "DeleteCropsDetail",
+			Handler:    _ExampleService_DeleteCropsDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

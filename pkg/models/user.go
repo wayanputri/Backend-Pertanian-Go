@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type User struct {
 	ID              int `gorm:"primaryKey"`
 	Name            string
@@ -9,6 +11,9 @@ type User struct {
 	Address         string
 	LandArea        string
 	TypeOfLivestock string
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
+	DeletedAt       time.Time
 
 	Cctv       []Cctv       `gorm:"foreignKey:UserID"`
 	Action     []Actions    `gorm:"foreignKey:UserID"`
