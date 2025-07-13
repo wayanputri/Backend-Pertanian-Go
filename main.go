@@ -3,6 +3,7 @@ package main
 import (
 	"backend/app/config"
 	"backend/app/database"
+	"backend/lib/external/minio"
 	"backend/pb"
 	"backend/server/handler"
 	"backend/server/repositori"
@@ -27,17 +28,15 @@ func main() {
 	cfg := config.AppConfig
 	e := echo.New()
 
-	// Middleware
-	// e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
-	// e.Pre(middleware.RemoveTrailingSlash())
-	// e.Pre(middleware.RemoveTrailingSlash())
-	// e.Pre(middleware.AddTrailingSlash()) // jika kamu ingin /docs/ saja yang dilayani
 
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Format: `[${time_rfc3339}] ${status} ${method} ${host}${path} ${latency_human}` + "\n",
 	}))
+
+	minio.MinioInit()
+	e.POST("/api/upload", minio.UploadFile)
 
 	ctx := context.Background()
 	db := database.ProstgresConfig()
@@ -51,18 +50,8 @@ func main() {
 	defer db.Close()
 	defer clientM.Disconnect(ctx)
 	serverNew := handler.New(providerNew)
-	// Serve Swagger UI from "swagger/swagger-ui" folder
-	// e.Static("/api/docs", "swagger/swagger-ui")
-
-	// // Serve Swagger JSON from "swagger/api.swagger.json"
-	// e.GET("/api/api.swagger.json", func(c echo.Context) error {
-	// 	return c.File("swagger/api.swagger.json")
-	// })
 	e.Static("/docs/", "swagger/swagger-ui")
 	e.File("/swagger.json", "swagger/api.swagger.json")
-
-	// e.Static("/api/docs", "swagger/swagger-ui")
-	// e.File("/swagger.json", "swagger/api.swagger.json")
 
 	// gRPC server
 	lis, err := net.Listen("tcp", cfg.GRPCPort)
@@ -88,8 +77,6 @@ func main() {
 		log.Fatalf("failed to register gateway: %v", err)
 	}
 
-	// e.Pre(middleware.RemoveTrailingSlash())
-	// Integrate gRPC-Gateway with Echo
 	e.Any("/api/*", echo.WrapHandler(gwMux))
 
 	// Start HTTP server (for Swagger and gRPC-Gateway)

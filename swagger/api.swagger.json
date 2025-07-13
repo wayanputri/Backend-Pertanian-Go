@@ -294,6 +294,30 @@
           "User"
         ]
       }
+    },
+    "/api/user-profile": {
+      "get": {
+        "summary": "get User profile",
+        "description": "This API for get user all",
+        "operationId": "ExampleService_GetUserProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleGetUserProfileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
     }
   },
   "definitions": {
@@ -425,6 +449,24 @@
       "properties": {
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "exampleGetUserProfileResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fail": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/exampleUser"
         }
       }
     },
@@ -561,6 +603,9 @@
           "type": "string"
         },
         "type_of_livestock": {
+          "type": "string"
+        },
+        "ficture": {
           "type": "string"
         }
       }

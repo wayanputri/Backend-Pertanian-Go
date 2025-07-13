@@ -77,6 +77,17 @@ service ExampleService {
         };
 	}
 
+	rpc GetUserProfile(Empty)returns(GetUserProfileResponse){
+		option (google.api.http) = {
+            get: "/api/user-profile"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["User"]
+            summary: "get User profile"
+            description: "This API for get user all"
+        };
+	}
+
 	rpc CreateCrops(Crops)returns(GlobalResponse){
 		option (google.api.http) = {
             post: "/api/create-crops"
@@ -180,7 +191,12 @@ message GetUserResponse{
 	string message = 3;
 	repeated User data = 4;
 }
-
+message GetUserProfileResponse{
+	int32 status = 1;
+	bool fail = 2;
+	string message = 3;
+	User data = 4;
+}
 message User{
 	int64 id =1;
 	string name = 2;
@@ -189,6 +205,7 @@ message User{
 	string address = 5;
 	string land_area = 6;
 	string type_of_livestock = 7;
+	string ficture = 8;
 }
 
 message Crops{

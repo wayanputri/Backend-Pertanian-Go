@@ -27,6 +27,12 @@ type Config struct {
 	MongoURI        string
 	MongoCollection string
 	MongoDB         string
+
+	MinioEndpoint  string
+	MinioAccessKey string
+	MinioSecretKey string
+	MinioSecure    bool
+	MinioBuckect   string
 }
 
 var AppConfig *Config
@@ -63,6 +69,10 @@ func LoadConfig() {
 		MongoURI:        getEnv("MONGO_URI", ""),
 		MongoCollection: getEnv("MONGO_COLLECTION", ""),
 		MongoDB:         getEnv("MONGO_DB", ""),
+		MinioEndpoint:   getEnv("MINIO_ENDPOINT", ""),
+		MinioAccessKey:  getEnv("MINIO_ACCESKEY", ""),
+		MinioSecretKey:  getEnv("MINIO_SECRETKEY", ""),
+		MinioBuckect:    getEnv("MINIO_BUCKET", ""),
 	}
 }
 

@@ -1,6 +1,7 @@
 package repositori
 
 import (
+	"backend/pb"
 	"backend/pkg/models"
 	"fmt"
 	"log"
@@ -88,4 +89,15 @@ func (r *Provider) UpdateRole(id int, roleUser string) error {
 	}
 
 	return nil
+}
+
+func (r *Provider) GetUserProfile(userId int) (*pb.User, error) {
+
+	var user models.User
+	if err := r.dbGorm.First(&user, userId).Error; err != nil {
+		return nil, err
+	}
+
+	userModel := models.UserProfile(user)
+	return userModel, nil
 }

@@ -176,3 +176,30 @@ func (s *Server) GetUserAll(ctx context.Context, _ *pb.Empty) (*pb.GetUserRespon
 		Data:    userData,
 	}, nil
 }
+
+func (s *Server) GetUserProfile(ctx context.Context, _ *pb.Empty) (*pb.GetUserProfileResponse, error) {
+	userID, _, err := jwt_middle.ExtractTokenUserId(ctx)
+	if err != nil {
+		return &pb.GetUserProfileResponse{
+			Status:  400,
+			Fail:    true,
+			Message: err.Error(),
+		}, err
+	}
+	data, err := s.provider.GetUserProfile(userID)
+	if err != nil {
+		return &pb.GetUserProfileResponse{
+			Status:  500,
+			Fail:    true,
+			Message: err.Error(),
+		}, err
+	}
+
+	return &pb.GetUserProfileResponse{
+		Status:  200,
+		Fail:    false,
+		Message: "get profile successfully",
+		Data:    data,
+	}, nil
+
+}
