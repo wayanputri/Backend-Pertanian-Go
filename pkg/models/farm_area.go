@@ -4,6 +4,7 @@ type FarmArea struct {
 	ID          int `gorm:"primaryKey"`
 	Nama        string
 	Type        string
+	Wide        string
 	Deskription string
 
 	Crop      []Crops      `gorm:"foreignKey:FarmAreaID"`

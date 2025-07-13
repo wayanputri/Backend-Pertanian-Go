@@ -11,6 +11,40 @@
     "application/json"
   ],
   "paths": {
+    "/api/create-crops": {
+      "post": {
+        "summary": "create crops",
+        "description": "This API for create crops",
+        "operationId": "ExampleService_CreateCrops",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleGlobalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/exampleCrops"
+            }
+          }
+        ],
+        "tags": [
+          "Crops"
+        ]
+      }
+    },
     "/api/example": {
       "get": {
         "summary": "Health Check",
@@ -42,6 +76,62 @@
           "Utility"
         ],
         "security": []
+      }
+    },
+    "/api/get-crops-all": {
+      "get": {
+        "summary": "get crops",
+        "description": "This API for get crops all",
+        "operationId": "ExampleService_GetCropsAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleCropsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "Crops"
+        ]
+      }
+    },
+    "/api/get-crops-detail": {
+      "get": {
+        "summary": "get crops",
+        "description": "This API for get crops detail",
+        "operationId": "ExampleService_GetCropsDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleCropsDetailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "reference",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Crops"
+        ]
       }
     },
     "/api/login": {
@@ -140,6 +230,121 @@
     }
   },
   "definitions": {
+    "exampleCropDetail": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string"
+        },
+        "jenis": {
+          "type": "string"
+        },
+        "umur": {
+          "type": "string"
+        },
+        "luas_lahan": {
+          "type": "string"
+        },
+        "kebutuhan_pupuk_kimia": {
+          "type": "string"
+        },
+        "kebutuhan_pupuk_organik": {
+          "type": "string"
+        },
+        "kebutuhan_pengendalian_hama": {
+          "type": "string"
+        },
+        "kebutuhan_air": {
+          "type": "string"
+        }
+      }
+    },
+    "exampleCrops": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "jenis": {
+          "type": "string"
+        },
+        "umur": {
+          "type": "string"
+        },
+        "luas_lahan": {
+          "type": "string"
+        },
+        "pupuk_kimia": {
+          "type": "string"
+        },
+        "pupuk_organik": {
+          "type": "string"
+        },
+        "pengendalian_hama": {
+          "type": "string"
+        },
+        "kebutuhan_air": {
+          "type": "string"
+        }
+      }
+    },
+    "exampleCropsAll": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string"
+        },
+        "jenis_tumbuhan": {
+          "type": "string"
+        },
+        "umur": {
+          "type": "string"
+        },
+        "nama_user": {
+          "type": "string"
+        }
+      }
+    },
+    "exampleCropsDetailResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "failed": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/exampleCropDetail"
+        }
+      }
+    },
+    "exampleCropsResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "failed": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/exampleCropsAll"
+          }
+        }
+      }
+    },
     "exampleExampleResponse2": {
       "type": "object",
       "properties": {
@@ -166,6 +371,21 @@
           "items": {
             "$ref": "#/definitions/exampleUser"
           }
+        }
+      }
+    },
+    "exampleGlobalResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "failed": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
         }
       }
     },
@@ -209,6 +429,15 @@
         },
         "password": {
           "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "land_area": {
+          "type": "string"
+        },
+        "type_of_livestock": {
+          "type": "string"
         }
       }
     },
@@ -248,6 +477,15 @@
           "type": "string"
         },
         "email": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "land_area": {
+          "type": "string"
+        },
+        "type_of_livestock": {
           "type": "string"
         }
       }

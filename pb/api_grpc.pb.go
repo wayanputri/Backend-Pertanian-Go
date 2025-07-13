@@ -19,10 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ExampleService_GetExample_FullMethodName   = "/example.ExampleService/GetExample"
-	ExampleService_RegisterUser_FullMethodName = "/example.ExampleService/RegisterUser"
-	ExampleService_LoginUser_FullMethodName    = "/example.ExampleService/LoginUser"
-	ExampleService_GetUserAll_FullMethodName   = "/example.ExampleService/GetUserAll"
+	ExampleService_GetExample_FullMethodName     = "/example.ExampleService/GetExample"
+	ExampleService_RegisterUser_FullMethodName   = "/example.ExampleService/RegisterUser"
+	ExampleService_LoginUser_FullMethodName      = "/example.ExampleService/LoginUser"
+	ExampleService_GetUserAll_FullMethodName     = "/example.ExampleService/GetUserAll"
+	ExampleService_CreateCrops_FullMethodName    = "/example.ExampleService/CreateCrops"
+	ExampleService_GetCropsAll_FullMethodName    = "/example.ExampleService/GetCropsAll"
+	ExampleService_GetCropsDetail_FullMethodName = "/example.ExampleService/GetCropsDetail"
 )
 
 // ExampleServiceClient is the client API for ExampleService service.
@@ -33,6 +36,9 @@ type ExampleServiceClient interface {
 	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
 	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserResponse, error)
 	GetUserAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetUserResponse, error)
+	CreateCrops(ctx context.Context, in *Crops, opts ...grpc.CallOption) (*GlobalResponse, error)
+	GetCropsAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CropsResponse, error)
+	GetCropsDetail(ctx context.Context, in *CropsDetailRequest, opts ...grpc.CallOption) (*CropsDetailResponse, error)
 }
 
 type exampleServiceClient struct {
@@ -79,6 +85,33 @@ func (c *exampleServiceClient) GetUserAll(ctx context.Context, in *Empty, opts .
 	return out, nil
 }
 
+func (c *exampleServiceClient) CreateCrops(ctx context.Context, in *Crops, opts ...grpc.CallOption) (*GlobalResponse, error) {
+	out := new(GlobalResponse)
+	err := c.cc.Invoke(ctx, ExampleService_CreateCrops_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exampleServiceClient) GetCropsAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*CropsResponse, error) {
+	out := new(CropsResponse)
+	err := c.cc.Invoke(ctx, ExampleService_GetCropsAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exampleServiceClient) GetCropsDetail(ctx context.Context, in *CropsDetailRequest, opts ...grpc.CallOption) (*CropsDetailResponse, error) {
+	out := new(CropsDetailResponse)
+	err := c.cc.Invoke(ctx, ExampleService_GetCropsDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExampleServiceServer is the server API for ExampleService service.
 // All implementations must embed UnimplementedExampleServiceServer
 // for forward compatibility
@@ -87,6 +120,9 @@ type ExampleServiceServer interface {
 	RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
 	LoginUser(context.Context, *LoginUserRequest) (*LoginUserResponse, error)
 	GetUserAll(context.Context, *Empty) (*GetUserResponse, error)
+	CreateCrops(context.Context, *Crops) (*GlobalResponse, error)
+	GetCropsAll(context.Context, *Empty) (*CropsResponse, error)
+	GetCropsDetail(context.Context, *CropsDetailRequest) (*CropsDetailResponse, error)
 	mustEmbedUnimplementedExampleServiceServer()
 }
 
@@ -105,6 +141,15 @@ func (UnimplementedExampleServiceServer) LoginUser(context.Context, *LoginUserRe
 }
 func (UnimplementedExampleServiceServer) GetUserAll(context.Context, *Empty) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserAll not implemented")
+}
+func (UnimplementedExampleServiceServer) CreateCrops(context.Context, *Crops) (*GlobalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCrops not implemented")
+}
+func (UnimplementedExampleServiceServer) GetCropsAll(context.Context, *Empty) (*CropsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCropsAll not implemented")
+}
+func (UnimplementedExampleServiceServer) GetCropsDetail(context.Context, *CropsDetailRequest) (*CropsDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCropsDetail not implemented")
 }
 func (UnimplementedExampleServiceServer) mustEmbedUnimplementedExampleServiceServer() {}
 
@@ -191,6 +236,60 @@ func _ExampleService_GetUserAll_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExampleService_CreateCrops_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Crops)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).CreateCrops(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_CreateCrops_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).CreateCrops(ctx, req.(*Crops))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExampleService_GetCropsAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).GetCropsAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_GetCropsAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).GetCropsAll(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExampleService_GetCropsDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CropsDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).GetCropsDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_GetCropsDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).GetCropsDetail(ctx, req.(*CropsDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExampleService_ServiceDesc is the grpc.ServiceDesc for ExampleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -213,6 +312,18 @@ var ExampleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserAll",
 			Handler:    _ExampleService_GetUserAll_Handler,
+		},
+		{
+			MethodName: "CreateCrops",
+			Handler:    _ExampleService_CreateCrops_Handler,
+		},
+		{
+			MethodName: "GetCropsAll",
+			Handler:    _ExampleService_GetCropsAll_Handler,
+		},
+		{
+			MethodName: "GetCropsDetail",
+			Handler:    _ExampleService_GetCropsDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

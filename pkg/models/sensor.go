@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Sensor struct {
 	ID                int `gorm:"primaryKey"`
 	Type              string
@@ -7,4 +9,5 @@ type Sensor struct {
 	FarmAreaID        int
 	ValueAverageToday float64
 	SensorReading     []SensorReading `gorm:"foreignKey:SensorID"`
+	CreatedAt         time.Time
 }

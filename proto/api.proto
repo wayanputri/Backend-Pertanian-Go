@@ -76,6 +76,39 @@ service ExampleService {
             description: "This API for get user all"
         };
 	}
+
+	rpc CreateCrops(Crops)returns(GlobalResponse){
+		option (google.api.http) = {
+            post: "/api/create-crops"
+			body:"*"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Crops"]
+            summary: "create crops"
+            description: "This API for create crops"
+        };
+	}	
+
+	rpc GetCropsAll(Empty)returns(CropsResponse){
+		option (google.api.http) = {
+            get: "/api/get-crops-all"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Crops"]
+            summary: "get crops"
+            description: "This API for get crops all"
+        };
+	}	
+	rpc GetCropsDetail(CropsDetailRequest)returns(CropsDetailResponse){
+		option (google.api.http) = {
+            get: "/api/get-crops-detail"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Crops"]
+            summary: "get crops"
+            description: "This API for get crops detail"
+        };
+	}	
 }
 
 // Define request and response messages
@@ -91,6 +124,9 @@ message RegisterUserRequest{
 	string name = 1;
 	string email = 2;
 	string password = 3;
+	string address = 4;
+	string land_area = 5;
+	string type_of_livestock = 6;
 }
 
 message RegisterUserResponse{
@@ -127,4 +163,61 @@ message User{
 	string name = 2;
 	string role = 3;
 	string email = 4;
+	string address = 5;
+	string land_area = 6;
+	string type_of_livestock = 7;
+}
+
+message Crops{
+	int64 id = 1;
+	string jenis = 2;
+	string umur = 3;
+	string luas_lahan = 4;
+	string pupuk_kimia = 5;
+	string pupuk_organik = 6;
+	string pengendalian_hama = 7;
+	string kebutuhan_air = 8;
+}
+
+message GlobalResponse{
+	int32 status = 1;
+	bool failed = 2;
+	string message = 3;
+}
+
+message CropsResponse{
+	int32 status = 1;
+	bool failed = 2;
+	string message = 3;
+	repeated CropsAll data = 4;
+
+}
+
+message CropsAll{
+	string reference = 1;
+	string jenis_tumbuhan = 2;
+	string umur = 3;
+	string nama_user = 4;
+}
+
+message CropsDetailRequest{
+	string reference=1;
+}
+
+message CropsDetailResponse{
+	int32 status = 1;
+	bool failed = 2;
+	string message = 3;
+	CropDetail data = 4;
+}
+
+message CropDetail{
+	string reference = 1;
+	string jenis= 2;
+	string umur = 3;
+	string luas_lahan = 4;
+	string kebutuhan_pupuk_kimia = 5;
+	string kebutuhan_pupuk_organik = 6;
+	string kebutuhan_pengendalian_hama = 7;
+	string kebutuhan_air = 8;
 }

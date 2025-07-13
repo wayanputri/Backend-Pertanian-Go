@@ -90,10 +90,13 @@ func (s *Server) RegisterUser(ctx context.Context, req *pb.RegisterUserRequest) 
 	}
 
 	data := &models.User{
-		Name:     req.Name,
-		Email:    req.Email,
-		Password: req.Password,
-		Role:     "user",
+		Name:            req.Name,
+		Email:           req.Email,
+		Password:        req.Password,
+		Role:            "user",
+		LandArea:        req.LandArea,
+		TypeOfLivestock: req.TypeOfLivestock,
+		Address:         req.Address,
 	}
 	id, err := s.GetProvider().CreateUser(data)
 	if err != nil {
@@ -160,6 +163,9 @@ func (s *Server) GetUserAll(ctx context.Context, _ *pb.Empty) (*pb.GetUserRespon
 		user.Email = v.Email
 		user.Name = v.Name
 		user.Role = v.Role
+		user.Address = v.Address
+		user.TypeOfLivestock = v.TypeOfLivestock
+		user.LandArea = v.LandArea
 
 		userData = append(userData, &user)
 	}
