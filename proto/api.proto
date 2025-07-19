@@ -143,6 +143,60 @@ service ExampleService {
             description: "This API for delete crops detail"
         };
 	}
+	rpc CreateLifeStock(CreateLifeStocks)returns(GlobalResponse){
+		option (google.api.http) = {
+            post: "/api/create-lifeStock"
+			body:"*"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Life Stock"]
+            summary: "create life stock"
+            description: "This API for create life stock"
+        };
+	}
+	rpc GetLifeStockAll(Empty)returns(LifeStockAllResponse){
+		option (google.api.http) = {
+            get: "/api/get-lifestock-all"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Life Stock"]
+            summary: "get life stock all"
+            description: "This API for get life stock all"
+        };	
+	}
+	rpc GetLifeStockDetail(LifeStockDetailRequest)returns(LifeStockDetailResponse){
+		option (google.api.http) = {
+            get: "/api/get-lifestock-detail"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Life Stock"]
+            summary: "get life stock"
+            description: "This API for get life stock detail"
+        };
+	}
+
+	rpc DeleteLifeStockDetail(DeleteLifeStockRequest)returns(GlobalResponse){
+		option (google.api.http) = {
+            delete: "/api/delete-lifeStock-detail"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Life Stock"]
+            summary: "delete Life Stock"
+            description: "This API for delete Life Stock detail"
+        };
+	}
+	rpc UpdateLifeStockDetail(CreateLifeStocks)returns(GlobalResponse){
+		option (google.api.http) = {
+            post: "/api/update-lifeStock-detail"
+			body:"*"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Life Stock"]
+            summary: "update life stock"
+            description: "This API for update life stock detail"
+        };
+	}
+		
 }
 
 // Define request and response messages
@@ -241,15 +295,38 @@ message CropsAll{
 	int64 id =5;
 }
 
+message LifeStockAllResponse{
+	int32 status = 1;
+	bool failed = 2;
+	string message = 3;
+	repeated LifeStockAll data = 4;
+
+}
+message LifeStockAll{
+	string reference = 1;
+	string jenis_hewan = 2;
+	string umur_hewan = 3;
+	string nama_user = 4;
+	int64 id =5;
+}
+
 message CropsDetailRequest{
 	string reference=1;
 }
-
+message LifeStockDetailRequest{
+	string reference=1;
+}
 message CropsDetailResponse{
 	int32 status = 1;
 	bool failed = 2;
 	string message = 3;
 	CropDetail data = 4;
+}
+message LifeStockDetailResponse{
+	int32 status = 1;
+	bool failed = 2;
+	string message = 3;
+	LifeStockDetail data = 4;
 }
 
 message CropDetail{
@@ -264,6 +341,32 @@ message CropDetail{
 	int64 id =9;
 }
 
+message LifeStockDetail{
+	string reference = 1;
+	string nama_hewan = 2;
+	string umur_hewan = 3;
+	int64 quantity = 4;
+	string luas_kandang = 5;
+	string kebutuhan_makan = 6;
+	string persentase_kesehatan = 7;
+	string jenis_makanan = 8;
+	int64 id =9;
+}
+
 message DeleteCropsRequest{
+	int64 id = 1;
+}
+
+message CreateLifeStocks{
+	int64 id = 1;
+	string jenis_hewan = 2;
+	string umur_hewan = 3;
+	int64 quantity = 4;
+	string luas_kandang = 5;
+	string kebutuhan_pakan = 6;
+	string persentase_kesehatan = 7;
+	string jenis_makanan = 8;
+}
+message DeleteLifeStockRequest{
 	int64 id = 1;
 }

@@ -19,16 +19,21 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ExampleService_GetExample_FullMethodName        = "/example.ExampleService/GetExample"
-	ExampleService_RegisterUser_FullMethodName      = "/example.ExampleService/RegisterUser"
-	ExampleService_LoginUser_FullMethodName         = "/example.ExampleService/LoginUser"
-	ExampleService_GetUserAll_FullMethodName        = "/example.ExampleService/GetUserAll"
-	ExampleService_GetUserProfile_FullMethodName    = "/example.ExampleService/GetUserProfile"
-	ExampleService_CreateCrops_FullMethodName       = "/example.ExampleService/CreateCrops"
-	ExampleService_GetCropsAll_FullMethodName       = "/example.ExampleService/GetCropsAll"
-	ExampleService_GetCropsDetail_FullMethodName    = "/example.ExampleService/GetCropsDetail"
-	ExampleService_UpdateCropsDetail_FullMethodName = "/example.ExampleService/UpdateCropsDetail"
-	ExampleService_DeleteCropsDetail_FullMethodName = "/example.ExampleService/DeleteCropsDetail"
+	ExampleService_GetExample_FullMethodName            = "/example.ExampleService/GetExample"
+	ExampleService_RegisterUser_FullMethodName          = "/example.ExampleService/RegisterUser"
+	ExampleService_LoginUser_FullMethodName             = "/example.ExampleService/LoginUser"
+	ExampleService_GetUserAll_FullMethodName            = "/example.ExampleService/GetUserAll"
+	ExampleService_GetUserProfile_FullMethodName        = "/example.ExampleService/GetUserProfile"
+	ExampleService_CreateCrops_FullMethodName           = "/example.ExampleService/CreateCrops"
+	ExampleService_GetCropsAll_FullMethodName           = "/example.ExampleService/GetCropsAll"
+	ExampleService_GetCropsDetail_FullMethodName        = "/example.ExampleService/GetCropsDetail"
+	ExampleService_UpdateCropsDetail_FullMethodName     = "/example.ExampleService/UpdateCropsDetail"
+	ExampleService_DeleteCropsDetail_FullMethodName     = "/example.ExampleService/DeleteCropsDetail"
+	ExampleService_CreateLifeStock_FullMethodName       = "/example.ExampleService/CreateLifeStock"
+	ExampleService_GetLifeStockAll_FullMethodName       = "/example.ExampleService/GetLifeStockAll"
+	ExampleService_GetLifeStockDetail_FullMethodName    = "/example.ExampleService/GetLifeStockDetail"
+	ExampleService_DeleteLifeStockDetail_FullMethodName = "/example.ExampleService/DeleteLifeStockDetail"
+	ExampleService_UpdateLifeStockDetail_FullMethodName = "/example.ExampleService/UpdateLifeStockDetail"
 )
 
 // ExampleServiceClient is the client API for ExampleService service.
@@ -45,6 +50,11 @@ type ExampleServiceClient interface {
 	GetCropsDetail(ctx context.Context, in *CropsDetailRequest, opts ...grpc.CallOption) (*CropsDetailResponse, error)
 	UpdateCropsDetail(ctx context.Context, in *Crops, opts ...grpc.CallOption) (*GlobalResponse, error)
 	DeleteCropsDetail(ctx context.Context, in *DeleteCropsRequest, opts ...grpc.CallOption) (*GlobalResponse, error)
+	CreateLifeStock(ctx context.Context, in *CreateLifeStocks, opts ...grpc.CallOption) (*GlobalResponse, error)
+	GetLifeStockAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*LifeStockAllResponse, error)
+	GetLifeStockDetail(ctx context.Context, in *LifeStockDetailRequest, opts ...grpc.CallOption) (*LifeStockDetailResponse, error)
+	DeleteLifeStockDetail(ctx context.Context, in *DeleteLifeStockRequest, opts ...grpc.CallOption) (*GlobalResponse, error)
+	UpdateLifeStockDetail(ctx context.Context, in *CreateLifeStocks, opts ...grpc.CallOption) (*GlobalResponse, error)
 }
 
 type exampleServiceClient struct {
@@ -145,6 +155,51 @@ func (c *exampleServiceClient) DeleteCropsDetail(ctx context.Context, in *Delete
 	return out, nil
 }
 
+func (c *exampleServiceClient) CreateLifeStock(ctx context.Context, in *CreateLifeStocks, opts ...grpc.CallOption) (*GlobalResponse, error) {
+	out := new(GlobalResponse)
+	err := c.cc.Invoke(ctx, ExampleService_CreateLifeStock_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exampleServiceClient) GetLifeStockAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*LifeStockAllResponse, error) {
+	out := new(LifeStockAllResponse)
+	err := c.cc.Invoke(ctx, ExampleService_GetLifeStockAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exampleServiceClient) GetLifeStockDetail(ctx context.Context, in *LifeStockDetailRequest, opts ...grpc.CallOption) (*LifeStockDetailResponse, error) {
+	out := new(LifeStockDetailResponse)
+	err := c.cc.Invoke(ctx, ExampleService_GetLifeStockDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exampleServiceClient) DeleteLifeStockDetail(ctx context.Context, in *DeleteLifeStockRequest, opts ...grpc.CallOption) (*GlobalResponse, error) {
+	out := new(GlobalResponse)
+	err := c.cc.Invoke(ctx, ExampleService_DeleteLifeStockDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exampleServiceClient) UpdateLifeStockDetail(ctx context.Context, in *CreateLifeStocks, opts ...grpc.CallOption) (*GlobalResponse, error) {
+	out := new(GlobalResponse)
+	err := c.cc.Invoke(ctx, ExampleService_UpdateLifeStockDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExampleServiceServer is the server API for ExampleService service.
 // All implementations must embed UnimplementedExampleServiceServer
 // for forward compatibility
@@ -159,6 +214,11 @@ type ExampleServiceServer interface {
 	GetCropsDetail(context.Context, *CropsDetailRequest) (*CropsDetailResponse, error)
 	UpdateCropsDetail(context.Context, *Crops) (*GlobalResponse, error)
 	DeleteCropsDetail(context.Context, *DeleteCropsRequest) (*GlobalResponse, error)
+	CreateLifeStock(context.Context, *CreateLifeStocks) (*GlobalResponse, error)
+	GetLifeStockAll(context.Context, *Empty) (*LifeStockAllResponse, error)
+	GetLifeStockDetail(context.Context, *LifeStockDetailRequest) (*LifeStockDetailResponse, error)
+	DeleteLifeStockDetail(context.Context, *DeleteLifeStockRequest) (*GlobalResponse, error)
+	UpdateLifeStockDetail(context.Context, *CreateLifeStocks) (*GlobalResponse, error)
 	mustEmbedUnimplementedExampleServiceServer()
 }
 
@@ -195,6 +255,21 @@ func (UnimplementedExampleServiceServer) UpdateCropsDetail(context.Context, *Cro
 }
 func (UnimplementedExampleServiceServer) DeleteCropsDetail(context.Context, *DeleteCropsRequest) (*GlobalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCropsDetail not implemented")
+}
+func (UnimplementedExampleServiceServer) CreateLifeStock(context.Context, *CreateLifeStocks) (*GlobalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateLifeStock not implemented")
+}
+func (UnimplementedExampleServiceServer) GetLifeStockAll(context.Context, *Empty) (*LifeStockAllResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLifeStockAll not implemented")
+}
+func (UnimplementedExampleServiceServer) GetLifeStockDetail(context.Context, *LifeStockDetailRequest) (*LifeStockDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLifeStockDetail not implemented")
+}
+func (UnimplementedExampleServiceServer) DeleteLifeStockDetail(context.Context, *DeleteLifeStockRequest) (*GlobalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteLifeStockDetail not implemented")
+}
+func (UnimplementedExampleServiceServer) UpdateLifeStockDetail(context.Context, *CreateLifeStocks) (*GlobalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateLifeStockDetail not implemented")
 }
 func (UnimplementedExampleServiceServer) mustEmbedUnimplementedExampleServiceServer() {}
 
@@ -389,6 +464,96 @@ func _ExampleService_DeleteCropsDetail_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExampleService_CreateLifeStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLifeStocks)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).CreateLifeStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_CreateLifeStock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).CreateLifeStock(ctx, req.(*CreateLifeStocks))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExampleService_GetLifeStockAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).GetLifeStockAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_GetLifeStockAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).GetLifeStockAll(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExampleService_GetLifeStockDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LifeStockDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).GetLifeStockDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_GetLifeStockDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).GetLifeStockDetail(ctx, req.(*LifeStockDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExampleService_DeleteLifeStockDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteLifeStockRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).DeleteLifeStockDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_DeleteLifeStockDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).DeleteLifeStockDetail(ctx, req.(*DeleteLifeStockRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExampleService_UpdateLifeStockDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLifeStocks)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).UpdateLifeStockDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_UpdateLifeStockDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).UpdateLifeStockDetail(ctx, req.(*CreateLifeStocks))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExampleService_ServiceDesc is the grpc.ServiceDesc for ExampleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -435,6 +600,26 @@ var ExampleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCropsDetail",
 			Handler:    _ExampleService_DeleteCropsDetail_Handler,
+		},
+		{
+			MethodName: "CreateLifeStock",
+			Handler:    _ExampleService_CreateLifeStock_Handler,
+		},
+		{
+			MethodName: "GetLifeStockAll",
+			Handler:    _ExampleService_GetLifeStockAll_Handler,
+		},
+		{
+			MethodName: "GetLifeStockDetail",
+			Handler:    _ExampleService_GetLifeStockDetail_Handler,
+		},
+		{
+			MethodName: "DeleteLifeStockDetail",
+			Handler:    _ExampleService_DeleteLifeStockDetail_Handler,
+		},
+		{
+			MethodName: "UpdateLifeStockDetail",
+			Handler:    _ExampleService_UpdateLifeStockDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -139,6 +139,13 @@ func (s *Server) GetCropsDetail(ctx context.Context, req *pb.CropsDetailRequest)
 }
 
 func (s *Server) UpdateCropsDetail(ctx context.Context, req *pb.Crops) (*pb.GlobalResponse, error) {
+	if req.Id == 0 {
+		return &pb.GlobalResponse{
+			Status:  400,
+			Failed:  true,
+			Message: "id tidak boleh kosong",
+		}, errors.New("id tidak boleh kosong")
+	}
 
 	userID, role, err := jwt_middle.ExtractTokenUserId(ctx)
 	if err != nil {
@@ -166,19 +173,6 @@ func (s *Server) UpdateCropsDetail(ctx context.Context, req *pb.Crops) (*pb.Glob
 			Message: err.Error(),
 		}, err
 	}
-	// fmt.Println("apa errornya1", err)
-	// err = s.provider.UpdateAreaFarm(&models.FarmArea{
-	// 	ID:   int(idFarmArea),
-	// 	Wide: req.GetLuasLahan(),
-	// })
-	// fmt.Println("apa errornya", err)
-	// if err != nil {
-	// 	return &pb.GlobalResponse{
-	// 		Status:  500,
-	// 		Failed:  true,
-	// 		Message: err.Error(),
-	// 	}, err
-	// }
 
 	return &pb.GlobalResponse{
 		Status:  200,
@@ -189,6 +183,13 @@ func (s *Server) UpdateCropsDetail(ctx context.Context, req *pb.Crops) (*pb.Glob
 }
 
 func (s *Server) DeleteCropsDetail(ctx context.Context, req *pb.DeleteCropsRequest) (*pb.GlobalResponse, error) {
+	if req.Id == 0 {
+		return &pb.GlobalResponse{
+			Status:  400,
+			Failed:  true,
+			Message: "id tidak boleh kosong",
+		}, errors.New("id tidak boleh kosong")
+	}
 	userID, role, err := jwt_middle.ExtractTokenUserId(ctx)
 	if err != nil {
 		return &pb.GlobalResponse{

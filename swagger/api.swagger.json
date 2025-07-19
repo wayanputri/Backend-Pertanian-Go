@@ -45,6 +45,40 @@
         ]
       }
     },
+    "/api/create-lifeStock": {
+      "post": {
+        "summary": "create life stock",
+        "description": "This API for create life stock",
+        "operationId": "ExampleService_CreateLifeStock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleGlobalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/exampleCreateLifeStocks"
+            }
+          }
+        ],
+        "tags": [
+          "Life Stock"
+        ]
+      }
+    },
     "/api/delete-crops-detail": {
       "delete": {
         "summary": "delete crops",
@@ -75,6 +109,39 @@
         ],
         "tags": [
           "Crops"
+        ]
+      }
+    },
+    "/api/delete-lifeStock-detail": {
+      "delete": {
+        "summary": "delete Life Stock",
+        "description": "This API for delete Life Stock detail",
+        "operationId": "ExampleService_DeleteLifeStockDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleGlobalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Life Stock"
         ]
       }
     },
@@ -164,6 +231,62 @@
         ],
         "tags": [
           "Crops"
+        ]
+      }
+    },
+    "/api/get-lifestock-all": {
+      "get": {
+        "summary": "get life stock all",
+        "description": "This API for get life stock all",
+        "operationId": "ExampleService_GetLifeStockAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleLifeStockAllResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "Life Stock"
+        ]
+      }
+    },
+    "/api/get-lifestock-detail": {
+      "get": {
+        "summary": "get life stock",
+        "description": "This API for get life stock detail",
+        "operationId": "ExampleService_GetLifeStockDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleLifeStockDetailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "reference",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Life Stock"
         ]
       }
     },
@@ -271,6 +394,40 @@
         ]
       }
     },
+    "/api/update-lifeStock-detail": {
+      "post": {
+        "summary": "update life stock",
+        "description": "This API for update life stock detail",
+        "operationId": "ExampleService_UpdateLifeStockDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/exampleGlobalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/exampleCreateLifeStocks"
+            }
+          }
+        ],
+        "tags": [
+          "Life Stock"
+        ]
+      }
+    },
     "/api/user": {
       "get": {
         "summary": "get User",
@@ -321,6 +478,37 @@
     }
   },
   "definitions": {
+    "exampleCreateLifeStocks": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "jenis_hewan": {
+          "type": "string"
+        },
+        "umur_hewan": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string",
+          "format": "int64"
+        },
+        "luas_kandang": {
+          "type": "string"
+        },
+        "kebutuhan_pakan": {
+          "type": "string"
+        },
+        "persentase_kesehatan": {
+          "type": "string"
+        },
+        "jenis_makanan": {
+          "type": "string"
+        }
+      }
+    },
     "exampleCropDetail": {
       "type": "object",
       "properties": {
@@ -503,6 +691,100 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "exampleLifeStockAll": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string"
+        },
+        "jenis_hewan": {
+          "type": "string"
+        },
+        "umur_hewan": {
+          "type": "string"
+        },
+        "nama_user": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "exampleLifeStockAllResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "failed": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/exampleLifeStockAll"
+          }
+        }
+      }
+    },
+    "exampleLifeStockDetail": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string"
+        },
+        "nama_hewan": {
+          "type": "string"
+        },
+        "umur_hewan": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string",
+          "format": "int64"
+        },
+        "luas_kandang": {
+          "type": "string"
+        },
+        "kebutuhan_makan": {
+          "type": "string"
+        },
+        "persentase_kesehatan": {
+          "type": "string"
+        },
+        "jenis_makanan": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "exampleLifeStockDetailResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "failed": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/exampleLifeStockDetail"
         }
       }
     },
