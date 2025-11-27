@@ -27,7 +27,7 @@ COPY --from=builder /app/backendApp .
 COPY .env .env  
 
 # Expose port yang akan digunakan oleh aplikasi (misalnya port 8088)
-EXPOSE 8088
+EXPOSE 80
 
 # Perintah untuk menjalankan aplikasi Go
 CMD ["./backendApp"]
