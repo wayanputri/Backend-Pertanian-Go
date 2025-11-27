@@ -51,4 +51,4 @@ jobs:
             docker load -i myapp.tar
             docker stop myapp || true
             docker rm myapp || true
-            make run
+            docker run -d --name myapp -p 80:80 myapp:latest
