@@ -12,22 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
 
+      # Build Docker image
       - name: Build Docker image
         run: docker build -t myapp:latest .
 
+      # Save Docker image to tar and fix permission
       - name: Save Docker image to tar
         run: |
           docker save myapp:latest -o myapp.tar
-          ls -l myapp.tar          # cek file
-          chmod 644 myapp.tar      # pastikan bisa dibaca container
+          ls -l myapp.tar
+          chmod 644 myapp.tar
 
+      # Copy Docker image to VPS
       - name: Copy Docker image to VPS
-        uses: appleboy/scp-action@v0.1.9
+        uses: appleboy/scp-action@v0.1.8
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
@@ -35,8 +39,9 @@ jobs:
           source: "myapp.tar"
           target: "~/deploy"
 
+      # Deploy on VPS via SSH
       - name: Deploy on VPS via SSH
-        uses: appleboy/ssh-action@v1.6.0
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
