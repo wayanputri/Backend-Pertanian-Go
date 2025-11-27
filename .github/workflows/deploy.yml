@@ -12,20 +12,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
 
+      # 2. Build Docker image
       - name: Build Docker image
         run: docker build -t myapp:latest .
 
+      # 3. Save Docker image to tar and fix permission
       - name: Save Docker image to tar
         run: |
           docker save myapp:latest -o myapp.tar
           ls -l myapp.tar
           chmod 644 myapp.tar
 
+      # 4. Copy Docker image to VPS
       - name: Copy Docker image to VPS
         uses: appleboy/scp-action@v1
         with:
@@ -35,6 +39,7 @@ jobs:
           source: "myapp.tar"
           target: "~/deploy"
 
+      # 5. Deploy on VPS via SSH using make run
       - name: Deploy on VPS via SSH
         uses: appleboy/ssh-action@v1
         with:
@@ -42,9 +47,8 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            mkdir -p ~/deploy
-            chmod 755 ~/deploy
-            docker load -i ~/deploy/myapp.tar
+            cd ~/deploy
+            docker load -i myapp.tar
             docker stop myapp || true
             docker rm myapp || true
-            docker run -d --name myapp -p 80:80 myapp:latest
+            make run
