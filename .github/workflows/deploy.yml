@@ -21,10 +21,13 @@ jobs:
         run: docker build -t myapp:latest .
 
       - name: Save Docker image to tar
-        run: docker save myapp:latest -o myapp.tar
+        run: |
+          docker save myapp:latest -o myapp.tar
+          ls -l myapp.tar          # cek file
+          chmod 644 myapp.tar      # pastikan bisa dibaca container
 
       - name: Copy Docker image to VPS
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v0.1.9
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
@@ -33,12 +36,14 @@ jobs:
           target: "~/deploy"
 
       - name: Deploy on VPS via SSH
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@v1.6.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
+            mkdir -p ~/deploy
+            chmod 755 ~/deploy
             docker load -i ~/deploy/myapp.tar
             docker stop myapp || true
             docker rm myapp || true
