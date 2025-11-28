@@ -4,6 +4,7 @@ package example;
 
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
+
 option go_package = "/pb";
 
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
@@ -31,12 +32,12 @@ service ExampleService {
         option (google.api.http) = {
             get: "/api/example"
         };
-		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            security: {} // Disable security key
-            tags: ["Utility"]
-            summary: "Health Check"
-            description: "This API for check server's health"
-        };
+		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+			security: {} // Disable security key
+			tags: "Utility"
+			summary: "Health Check"
+			description: "This API for check server's health"
+		};
 
     }
 
@@ -46,11 +47,11 @@ service ExampleService {
 			body: "*"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            security: {} // Disable security key
-            tags: ["User"]
-            summary: "Register User"
-            description: "This API for register new user"
-        };
+			security: {} // Disable security key
+			tags: "User"
+			summary: "Register User"
+			description: "This API for register new user"
+		};
 	}
 
 	rpc LoginUser(LoginUserRequest)returns(LoginUserResponse){
@@ -59,11 +60,11 @@ service ExampleService {
 			body: "*"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            security: {} // Disable security key
-            tags: ["User"]
-            summary: "Login User"
-            description: "This API for login user"
-        };
+			security: {} // Disable security key
+			tags: "User"
+			summary: "Login User"
+			description: "This API for login user"
+		};
 	}
 
 	rpc GetUserAll(Empty)returns(GetUserResponse){
@@ -71,10 +72,10 @@ service ExampleService {
             get: "/api/user"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["User"]
-            summary: "get User"
-            description: "This API for get user all"
-        };
+			tags: "User"
+			summary: "get User"
+			description: "This API for get user all"
+		};
 	}
 
 	rpc GetUserProfile(Empty)returns(GetUserProfileResponse){
@@ -82,10 +83,10 @@ service ExampleService {
             get: "/api/user-profile"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["User"]
-            summary: "get User profile"
-            description: "This API for get user all"
-        };
+			tags: "User"
+			summary: "get User profile"
+			description: "This API for get user all"
+		};
 	}
 
 	rpc CreateCrops(Crops)returns(GlobalResponse){
@@ -94,10 +95,10 @@ service ExampleService {
 			body:"*"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Crops"]
-            summary: "create crops"
-            description: "This API for create crops"
-        };
+			tags: "Crops"
+			summary: "create crops"
+			description: "This API for create crops"
+		};
 	}	
 
 	rpc GetCropsAll(Empty)returns(CropsResponse){
@@ -105,20 +106,20 @@ service ExampleService {
             get: "/api/get-crops-all"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Crops"]
-            summary: "get crops"
-            description: "This API for get crops all"
-        };
+			tags: "Crops"
+			summary: "get crops"
+			description: "This API for get crops all"
+		};
 	}	
 	rpc GetCropsDetail(CropsDetailRequest)returns(CropsDetailResponse){
 		option (google.api.http) = {
             get: "/api/get-crops-detail"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Crops"]
-            summary: "get crops"
-            description: "This API for get crops detail"
-        };
+			tags: "Crops"
+			summary: "get crops"
+			description: "This API for get crops detail"
+		};
 	}
 	
 	rpc UpdateCropsDetail(Crops)returns(GlobalResponse){
@@ -127,10 +128,10 @@ service ExampleService {
 			body:"*"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Crops"]
-            summary: "update crops"
-            description: "This API for update crops detail"
-        };
+			tags: "Crops"
+			summary: "update crops"
+			description: "This API for update crops detail"
+		};
 	}
 	
 	rpc DeleteCropsDetail(DeleteCropsRequest)returns(GlobalResponse){
@@ -138,10 +139,10 @@ service ExampleService {
             delete: "/api/delete-crops-detail"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Crops"]
-            summary: "delete crops"
-            description: "This API for delete crops detail"
-        };
+			tags: "Crops"
+			summary: "delete crops"
+			description: "This API for delete crops detail"
+		};
 	}
 	rpc CreateLifeStock(CreateLifeStocks)returns(GlobalResponse){
 		option (google.api.http) = {
@@ -149,30 +150,30 @@ service ExampleService {
 			body:"*"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Life Stock"]
-            summary: "create life stock"
-            description: "This API for create life stock"
-        };
+			tags: "Life Stock"
+			summary: "create life stock"
+			description: "This API for create life stock"
+		};
 	}
 	rpc GetLifeStockAll(Empty)returns(LifeStockAllResponse){
 		option (google.api.http) = {
             get: "/api/get-lifestock-all"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Life Stock"]
-            summary: "get life stock all"
-            description: "This API for get life stock all"
-        };	
+			tags: "Life Stock"
+			summary: "get life stock all"
+			description: "This API for get life stock all"
+		};    
 	}
 	rpc GetLifeStockDetail(LifeStockDetailRequest)returns(LifeStockDetailResponse){
 		option (google.api.http) = {
             get: "/api/get-lifestock-detail"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Life Stock"]
-            summary: "get life stock"
-            description: "This API for get life stock detail"
-        };
+			tags: "Life Stock"
+			summary: "get life stock"
+			description: "This API for get life stock detail"
+		};
 	}
 
 	rpc DeleteLifeStockDetail(DeleteLifeStockRequest)returns(GlobalResponse){
@@ -180,10 +181,10 @@ service ExampleService {
             delete: "/api/delete-lifeStock-detail"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Life Stock"]
-            summary: "delete Life Stock"
-            description: "This API for delete Life Stock detail"
-        };
+			tags: "Life Stock"
+			summary: "delete Life Stock"
+			description: "This API for delete Life Stock detail"
+		};
 	}
 	rpc UpdateLifeStockDetail(CreateLifeStocks)returns(GlobalResponse){
 		option (google.api.http) = {
@@ -191,11 +192,23 @@ service ExampleService {
 			body:"*"
         };
 		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-            tags: ["Life Stock"]
-            summary: "update life stock"
-            description: "This API for update life stock detail"
-        };
+			tags: "Life Stock"
+			summary: "update life stock"
+			description: "This API for update life stock detail"
+		};
 	}
+
+	rpc HelloWorld(Empty)returns(GlobalResponse){
+		option (google.api.http) = {
+            post: "/api/helo-world"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+			tags: "Hello World"
+			summary: "update hello world"
+			description: "This API for update helo  detail"
+		};
+	}
+
 		
 }
 
