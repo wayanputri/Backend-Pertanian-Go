@@ -196,6 +196,16 @@ service ExampleService {
             description: "This API for update life stock detail"
         };
 	}
+	rpc GetSensorKelembapan(Empty)returns (GetSensorKelembapanResponse){
+		option (google.api.http) = {
+            get: "/api/get-sensor-humadity"
+        };
+		 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            tags: ["Sensor"]
+            summary: "get sensor humadity"
+            description: "This API for sensor humadity detail"
+        };
+	}
 		
 }
 
@@ -369,4 +379,11 @@ message CreateLifeStocks{
 }
 message DeleteLifeStockRequest{
 	int64 id = 1;
+}
+
+message GetSensorKelembapanResponse{
+	int32 id =1;
+	string value = 2;
+	string nama = 3;
+	int32 sensor_id = 4;
 }

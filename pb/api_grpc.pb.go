@@ -34,6 +34,7 @@ const (
 	ExampleService_GetLifeStockDetail_FullMethodName    = "/example.ExampleService/GetLifeStockDetail"
 	ExampleService_DeleteLifeStockDetail_FullMethodName = "/example.ExampleService/DeleteLifeStockDetail"
 	ExampleService_UpdateLifeStockDetail_FullMethodName = "/example.ExampleService/UpdateLifeStockDetail"
+	ExampleService_GetSensorKelembapan_FullMethodName   = "/example.ExampleService/GetSensorKelembapan"
 )
 
 // ExampleServiceClient is the client API for ExampleService service.
@@ -55,6 +56,7 @@ type ExampleServiceClient interface {
 	GetLifeStockDetail(ctx context.Context, in *LifeStockDetailRequest, opts ...grpc.CallOption) (*LifeStockDetailResponse, error)
 	DeleteLifeStockDetail(ctx context.Context, in *DeleteLifeStockRequest, opts ...grpc.CallOption) (*GlobalResponse, error)
 	UpdateLifeStockDetail(ctx context.Context, in *CreateLifeStocks, opts ...grpc.CallOption) (*GlobalResponse, error)
+	GetSensorKelembapan(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetSensorKelembapanResponse, error)
 }
 
 type exampleServiceClient struct {
@@ -200,6 +202,15 @@ func (c *exampleServiceClient) UpdateLifeStockDetail(ctx context.Context, in *Cr
 	return out, nil
 }
 
+func (c *exampleServiceClient) GetSensorKelembapan(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetSensorKelembapanResponse, error) {
+	out := new(GetSensorKelembapanResponse)
+	err := c.cc.Invoke(ctx, ExampleService_GetSensorKelembapan_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExampleServiceServer is the server API for ExampleService service.
 // All implementations must embed UnimplementedExampleServiceServer
 // for forward compatibility
@@ -219,6 +230,7 @@ type ExampleServiceServer interface {
 	GetLifeStockDetail(context.Context, *LifeStockDetailRequest) (*LifeStockDetailResponse, error)
 	DeleteLifeStockDetail(context.Context, *DeleteLifeStockRequest) (*GlobalResponse, error)
 	UpdateLifeStockDetail(context.Context, *CreateLifeStocks) (*GlobalResponse, error)
+	GetSensorKelembapan(context.Context, *Empty) (*GetSensorKelembapanResponse, error)
 	mustEmbedUnimplementedExampleServiceServer()
 }
 
@@ -270,6 +282,9 @@ func (UnimplementedExampleServiceServer) DeleteLifeStockDetail(context.Context, 
 }
 func (UnimplementedExampleServiceServer) UpdateLifeStockDetail(context.Context, *CreateLifeStocks) (*GlobalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateLifeStockDetail not implemented")
+}
+func (UnimplementedExampleServiceServer) GetSensorKelembapan(context.Context, *Empty) (*GetSensorKelembapanResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSensorKelembapan not implemented")
 }
 func (UnimplementedExampleServiceServer) mustEmbedUnimplementedExampleServiceServer() {}
 
@@ -554,6 +569,24 @@ func _ExampleService_UpdateLifeStockDetail_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExampleService_GetSensorKelembapan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExampleServiceServer).GetSensorKelembapan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExampleService_GetSensorKelembapan_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExampleServiceServer).GetSensorKelembapan(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExampleService_ServiceDesc is the grpc.ServiceDesc for ExampleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -620,6 +653,10 @@ var ExampleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateLifeStockDetail",
 			Handler:    _ExampleService_UpdateLifeStockDetail_Handler,
+		},
+		{
+			MethodName: "GetSensorKelembapan",
+			Handler:    _ExampleService_GetSensorKelembapan_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
